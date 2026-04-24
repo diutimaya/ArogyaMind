@@ -24,7 +24,10 @@ export default function SymptomSubmission() {
       const analysis = res.data.record.aiAnalysis;
       setResults({
         conditions: analysis.conditions,
-        recommendedSpecialist: analysis.recommendedSpecialistType
+        recommendedSpecialist: analysis.recommendedSpecialistType,
+        severity: analysis.severity,
+        immediateAction: analysis.immediateAction,
+        dietAndLifestyle: analysis.dietAndLifestyle
       });
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred during analysis');
@@ -103,7 +106,18 @@ export default function SymptomSubmission() {
         <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 shadow-sm animate-fade-in">
            <div className="flex justify-between items-center mb-6">
              <h2 className="text-[#1C2B3A] font-medium text-lg">Analysis Results</h2>
-             <span className="text-xs font-bold text-[#00C896] bg-[#00C896]/10 px-3 py-1.5 rounded-full">✦ AI-Powered</span>
+             <div className="flex items-center gap-2">
+               {results.severity && (
+                 <span className={`text-xs font-bold px-3 py-1.5 rounded-full text-white ${
+                   results.severity === 'Critical' ? 'bg-[#E84040]' : 
+                   results.severity === 'High' ? 'bg-[#E84040]/80' : 
+                   results.severity === 'Medium' ? 'bg-[#F5A623]' : 'bg-[#00C896]'
+                 }`}>
+                   {results.severity} Risk
+                 </span>
+               )}
+               <span className="text-xs font-bold text-[#00C896] bg-[#00C896]/10 px-3 py-1.5 rounded-full">✦ AI-Powered</span>
+             </div>
            </div>
            
            <div className="space-y-5 mb-8">
@@ -119,6 +133,27 @@ export default function SymptomSubmission() {
                </div>
              ))}
            </div>
+
+           {(results.immediateAction || results.dietAndLifestyle) && (
+             <div className="space-y-5 mb-8 border-t border-b border-[#E2E8F0] py-6">
+               {results.immediateAction && (
+                 <div>
+                   <h3 className="font-semibold text-[#1C2B3A] text-sm mb-2 flex items-center gap-2">
+                     <span className="text-lg">⚡</span> Immediate Action Recommended
+                   </h3>
+                   <p className="text-[#7A8FA6] text-sm leading-relaxed bg-[#F4F7FB] p-3 rounded-lg border border-[#E2E8F0]">{results.immediateAction}</p>
+                 </div>
+               )}
+               {results.dietAndLifestyle && (
+                 <div>
+                   <h3 className="font-semibold text-[#1C2B3A] text-sm mb-2 flex items-center gap-2">
+                     <span className="text-lg">🥗</span> Diet & Lifestyle Advice
+                   </h3>
+                   <p className="text-[#7A8FA6] text-sm leading-relaxed bg-[#F4F7FB] p-3 rounded-lg border border-[#E2E8F0]">{results.dietAndLifestyle}</p>
+                 </div>
+               )}
+             </div>
+           )}
 
            <div className="bg-[#FFF8E1] border border-[#FFE082] rounded-xl p-4 mb-8 flex gap-3 text-[#B78103]">
              <span className="text-xl">⚠️</span>

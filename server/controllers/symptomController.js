@@ -28,7 +28,9 @@ export const analyzeSymptoms = async (req, res) => {
           {"name": "Condition 1", "probability": 85},
           {"name": "Condition 2", "probability": 40}
         ],
-        "recommendedSpecialistType": "Cardiologist" | "Neurologist" | "General Physician" | "Dermatologist" | "Pediatrician" | "Orthopedic" | "Gynecologist" | "Psychiatrist" | "ENT Specialist" | "Endocrinologist"
+        "recommendedSpecialistType": "Cardiologist" | "Neurologist" | "General Physician" | "Dermatologist" | "Pediatrician" | "Orthopedic" | "Gynecologist" | "Psychiatrist" | "ENT Specialist" | "Endocrinologist",
+        "immediateAction": "A short, actionable recommendation on what the patient should do right now given their symptoms.",
+        "dietAndLifestyle": "Specific diet, rest, or lifestyle advice applicable to their current state."
       }
     `;
 
