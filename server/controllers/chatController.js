@@ -26,7 +26,7 @@ Keep your answers concise, professional, and friendly. If a user describes a med
     conversation += `Patient: ${message}\nAssistant:`;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-flash-latest',
       contents: conversation,
     });
 
