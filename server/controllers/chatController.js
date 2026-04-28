@@ -1,5 +1,7 @@
 import { GoogleGenAI } from '@google/genai';
 
+let ai;
+
 export const handleChat = async (req, res) => {
   try {
     const { message, history } = req.body;
@@ -8,7 +10,9 @@ export const handleChat = async (req, res) => {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    if (!ai) {
+      ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    }
     
     // System prompt to set the AI's identity
     const systemPrompt = `You are an intelligent, empathetic, and highly capable medical assistant AI integrated into the Agentic Healthcare Platform. 
@@ -26,7 +30,7 @@ Keep your answers concise, professional, and friendly. If a user describes a med
     conversation += `Patient: ${message}\nAssistant:`;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-flash-latest',
+      model: 'gemini-2.5-flash',
       contents: conversation,
     });
 

@@ -2,7 +2,6 @@ import { GoogleGenAI } from '@google/genai';
 import SymptomRecord from '../models/SymptomRecord.js';
 import Specialist from '../models/Specialist.js';
 
-// We will initialize this inside the function so that dotenv has loaded
 let ai;
 
 export const analyzeSymptoms = async (req, res) => {
@@ -35,7 +34,7 @@ export const analyzeSymptoms = async (req, res) => {
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-flash-latest',
+      model: 'gemini-2.5-flash',
       contents: prompt,
     });
     
@@ -52,7 +51,6 @@ export const analyzeSymptoms = async (req, res) => {
       aiAnalysis
     });
 
-    // Case insensitive regex search for matching specialists
     const specialists = await Specialist.find({ 
       specialty: new RegExp(aiAnalysis.recommendedSpecialistType, 'i') 
     }).populate('user', 'name email');

@@ -35,7 +35,7 @@ export const getHotelRecommendations = async (req, res) => {
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-flash-latest',
+      model: 'gemini-2.5-flash',
       contents: prompt,
     });
     
@@ -45,12 +45,10 @@ export const getHotelRecommendations = async (req, res) => {
       const jsonMatch = responseText.match(/\{[\s\S]*\}/);
       if (!jsonMatch) throw new Error("Regex failed to find JSON");
       
-      // Clean up potential trailing commas that break JSON.parse
       const cleanJson = jsonMatch[0].replace(/,\s*([\]}])/g, '$1');
       recommendations = JSON.parse(cleanJson);
     } catch (parseErr) {
       console.error('JSON Parse Error:', parseErr);
-      // Fallback
       recommendations = {
         hotels: [
           {
